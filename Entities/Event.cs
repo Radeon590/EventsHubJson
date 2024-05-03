@@ -9,10 +9,17 @@
         public string Address { get; set; }
         public DateTime Date { get; set; }
         public float Price { get; set; }
+        public List<User> Users { get; set; }
 
         public Event() { }
 
-        public Event(int organizerId, string namespacE, string description, string address, DateTime date, float price)
+        public Event(int organizerId, string namespacE, string description, string address, DateTime date, float price) 
+            : this(organizerId, namespacE, description, address, date, price, new List<User>())
+        {
+
+        }
+
+        public Event(int organizerId, string namespacE, string description, string address, DateTime date, float price, List<User> users)
         {
             OrganizerId = organizerId;
             Namespace = namespacE;
@@ -20,6 +27,7 @@
             Address = address;
             Date = date;
             Price = price;
+            Users = users;
         }
     }
 }

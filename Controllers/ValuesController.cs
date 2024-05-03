@@ -15,11 +15,13 @@ namespace DbLab.Controllers
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    db.Users.Add(new User($"testUser{i}", $"testUser{i}", $"testUser{i}", $"testUser{i}", $"testUser{i}", $"testUser{i}", i));
+                    var newUser = new User($"testUser{i}", $"testUser{i}", $"testUser{i}", $"testUser{i}", $"testUser{i}", $"testUser{i}", i);
+                    db.Users.Add(newUser);
                     db.Organizers.Add(new Organizer($"testOrganizer{i}", $"testOrganizer{i}", $"testOrganizer{i}"));
-                    db.Events.Add(new Event(i, $"testEvent{i}", $"testEvent{i}", $"testEvent{i}", DateTime.Now, 100));
+                    var newEvent = new Event(i, $"testEvent{i}", $"testEvent{i}", $"testEvent{i}", DateTime.Now, 100);
+                    db.Events.Add(newEvent);
                     db.Donations.Add(new Donation(i, i, 250));
-                    db.Participants.Add(new Participant(i, i));
+                    newUser.Events.Add(newEvent);
                 }
                 db.SaveChanges();
             }
