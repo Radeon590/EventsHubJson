@@ -17,8 +17,9 @@ namespace DbLab.Controllers
                 {
                     var newUser = new User($"testUser{i}", $"testUser{i}", $"testUser{i}", $"testUser{i}", $"testUser{i}", $"testUser{i}", i);
                     db.Users.Add(newUser);
-                    db.Organizers.Add(new Organizer($"testOrganizer{i}", $"testOrganizer{i}", $"testOrganizer{i}"));
-                    var newEvent = new Event(i, $"testEvent{i}", $"testEvent{i}", $"testEvent{i}", DateTime.Now, 100);
+                    var newOrganizer = new Organizer($"testOrganizer{i}", $"testOrganizer{i}", $"testOrganizer{i}");
+                    db.Organizers.Add(newOrganizer);
+                    var newEvent = new Event(newOrganizer, $"testEvent{i}", $"testEvent{i}", $"testEvent{i}", DateTime.Now, 100);
                     db.Events.Add(newEvent);
                     db.Donations.Add(new Donation(i, i, 250));
                     newUser.Events.Add(newEvent);
