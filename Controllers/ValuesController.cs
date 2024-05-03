@@ -11,7 +11,7 @@ namespace DbLab.Controllers
         [HttpPost]
         public void CreateData()
         {
-            using (ApplicationContext db = new ApplicationContext())
+            /*using (ApplicationContext db = new ApplicationContext())
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -25,7 +25,7 @@ namespace DbLab.Controllers
                     newUser.Events.Add(newEvent);
                 }
                 db.SaveChanges();
-            }
+            }*/
         }
     }
 }
