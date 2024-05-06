@@ -1,10 +1,10 @@
-﻿using DbLab.Entities;
+﻿using EventsHubApi.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace DbLab.Controllers
+namespace EventsHubApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

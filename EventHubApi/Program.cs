@@ -1,4 +1,4 @@
-using DbLab;
+using EventsHubApi;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 

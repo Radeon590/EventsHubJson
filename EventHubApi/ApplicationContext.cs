@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using DbLab.Entities;
+using EventsHubApi.Entities;
 
-namespace DbLab
+namespace EventsHubApi
 {
     public class ApplicationContext : DbContext
     {

@@ -1,4 +1,4 @@
-﻿namespace DbLab.Entities
+﻿namespace EventsHubApi.Entities
 {
     public class Donation
     {
