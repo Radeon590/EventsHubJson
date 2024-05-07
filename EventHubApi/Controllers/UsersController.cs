@@ -3,6 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EventsHubApi.Controllers
 {
@@ -36,7 +42,34 @@ namespace EventsHubApi.Controllers
         }
 
         [HttpGet]
+        [Route("Authorize")]
+        public async Task<IResult> Authorize(string username, string password)
+        {
+            var user = await _applicationContext.Users.Where(u => u.Username == username && u.Password == password).FirstOrDefaultAsync();
+            if (user != null)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, username),
+                    new Claim(ClaimTypes.Role, AuthRoles.User)
+                };
+                var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                return Results.SignIn(claimsPrincipal);
+            }
+            return Results.NotFound();
+        }
+
+        [HttpGet]
+        [Route("NotAuthorized")]
+        public IResult NotAuthorized()
+        {
+            return Results.StatusCode(401);
+        }
+
+        [HttpGet]
         [Route("Read")]
+        [Authorize(Roles = AuthRoles.User)]
         public async Task<IResult> Read(int id)
         {
             User? user = await _applicationContext.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
@@ -49,6 +82,7 @@ namespace EventsHubApi.Controllers
 
         [HttpPatch]
         [Route("Update")]
+        [Authorize(Roles = AuthRoles.User)]
         public async Task<IResult> Update(int id)
         {
             User? updateUser = await HttpContext.Request.ReadFromJsonAsync<User>();
