@@ -1,23 +1,22 @@
+import { Routes, Route } from "react-router-dom"
 import { connect } from 'react-redux';
 import action_1 from '../store/actionCreators/action_1'
 import action_2 from '../store/actionCreators/action_2'
-import Component1 from '../components/component_1';
-import Component2 from '../components/component_2';
+import Home from "./home";
+import SignIn from "./signin";
 
-//TODO: add routing template
 function App(props){
     return(
-        <div>
-            <Component1 value_1={props.value_1} change_value_1={props.action_1}/>
-            <Component2 value_2={props.value_2} change_value_2={props.action_2}/>
-        </div>
+        <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="signin" element={<SignIn/>}/>
+        </Routes>
     );
 }
 
 const mapStateToProps = state => {
     return {
-        value_1: state.value_1,
-        value_2: state.value_2
+        account: state.account
     }
 };
 
