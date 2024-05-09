@@ -21,9 +21,10 @@ function SignIn({ account, setAccount }){
         method: "GET",
         credentials: "include"
       });
-      let user = readUserResult.json();
-      setAccount({ accountType: "user", data: user });
-      navigate("/");
+      readUserResult.json().then(value => {
+        setAccount({ accountType: "user", data: value });
+      });
+      navigate("../");
     }
   }
 

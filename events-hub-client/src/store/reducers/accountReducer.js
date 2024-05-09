@@ -4,7 +4,6 @@ import { SET_ACCOUNT, SET_ACCOUNT_DATA, SET_ACCOUNT_TYPE } from "../actions/acco
 export default function account(state = initialState.account, action) {
     switch (action.type) {
         case SET_ACCOUNT:
-            console.log(action.account);
             localStorage.setItem("account", getStorageAccount(action.account));
             return action.account;
         case SET_ACCOUNT_DATA:
@@ -33,13 +32,10 @@ export default function account(state = initialState.account, action) {
             return state;
 
         default:
-            console.log(state); 
             return state;
     }
 }
 
 function getStorageAccount(account){
-    let storageAccount = account;
-    storageAccount.data = JSON.stringify(storageAccount.data);
-    return JSON.stringify(storageAccount);
+    return JSON.stringify(account);
 }

@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import { Navigate } from "react-router";
 
 function Profile({ account }){
-
     if (account != null){
         if (account.accountType === "user"){
             return (
