@@ -9,6 +9,9 @@ function Home(props) {
         if (props.account === null){
             navigate('signin');
         }
+        else{
+            navigate("profile");
+        }
     });
 
     return (

@@ -2,14 +2,16 @@ import { Routes, Route } from "react-router-dom"
 import { connect } from 'react-redux';
 import action_1 from '../store/actionCreators/action_1'
 import action_2 from '../store/actionCreators/action_2'
-import Home from "./home";
 import SignIn from "./signin";
+import Home from './home';
+import Profile from "./Profile";
 
 function App(props){
     return(
         <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="signin" element={<SignIn/>}/>
+            <Route path="profile" element={ <Profile/> }/>
         </Routes>
     );
 }

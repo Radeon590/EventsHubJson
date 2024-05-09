@@ -5,7 +5,7 @@ export default function account(state = initialState.account, action) {
     switch (action.type) {
         case SET_ACCOUNT:
             console.log(action.account);
-            localStorage.setItem("account", action.account);
+            localStorage.setItem("account", getStorageAccount(action.account));
             return action.account;
         case SET_ACCOUNT_DATA:
             if (state === null) {
@@ -17,7 +17,7 @@ export default function account(state = initialState.account, action) {
             else {
                 state.data = action.data;
             }
-            localStorage.setItem("account", action.account);
+            localStorage.setItem("account", getStorageAccount(state));
             return state;
         case SET_ACCOUNT_TYPE:
             if (state === null) {
@@ -29,11 +29,17 @@ export default function account(state = initialState.account, action) {
             else{
                 state.accountType = action.accountType;
             }
-            localStorage.setItem("account", action.account);
+            localStorage.setItem("account", getStorageAccount(state));
             return state;
 
         default:
             console.log(state); 
             return state;
     }
+}
+
+function getStorageAccount(account){
+    let storageAccount = account;
+    storageAccount.data = JSON.stringify(storageAccount.data);
+    return JSON.stringify(storageAccount);
 }
