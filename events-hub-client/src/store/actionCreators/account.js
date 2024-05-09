@@ -1,10 +1,24 @@
-import SET_ACCOUNT from "../actions/account";
+import { SET_ACCOUNT, SET_ACCOUNT_DATA, SET_ACCOUNT_TYPE } from "../actions/account";
 
-function set_account(value){
+function setAccount(value){
     return {
-            type: SET_ACCOUNT,
-		    account: value
+        type: SET_ACCOUNT,
+        account: value
     };
 }
 
-export default set_account;
+function setAccountData(value){
+    return {
+            type: SET_ACCOUNT_DATA,
+		    data: value
+    };
+}
+
+function setAccountType(value){
+    return {
+        type: SET_ACCOUNT_TYPE,
+        accountType: value
+    }
+}
+
+export { setAccount, setAccountData, setAccountType };

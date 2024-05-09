@@ -1,9 +1,13 @@
 import { useRef } from "react";
+import { useNavigate } from "react-router";
+import { connect } from "react-redux";
 import "./signin.css";
+import { setAccount } from "../store/actionCreators/account";
 
-function SignIn(){
+function SignIn({ account, setAccount }){
   const usernameInput = useRef(null);
   const passwordInput = useRef(null);
+  const navigate = useNavigate();
 
   async function signInAsUser(){
     let result = await fetch(`http://localhost:5141/api/Users/Authorize?username=${usernameInput.current.value}&password=${passwordInput.current.value}`, {
@@ -17,7 +21,9 @@ function SignIn(){
         method: "GET",
         credentials: "include"
       });
-      console.log(readUserResult.json());
+      let user = readUserResult.json();
+      setAccount({ accountType: "user", data: user });
+      navigate("/");
     }
   }
 
@@ -31,4 +37,14 @@ function SignIn(){
     );
 }
 
-export default SignIn;
+const mapStateToProps = state => {
+  return {
+      account: state.account
+  }
+};
+
+const mapDispatchToProps = {
+  setAccount
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
