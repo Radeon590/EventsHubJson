@@ -83,9 +83,9 @@ namespace EventsHubApi.Controllers
         [HttpGet]
         [Route("ReadByUsername")]
         [Authorize(Roles = AuthRoles.User)]
-        public async Task<IResult> Read(int id)
+        public async Task<IResult> ReadByUsername(string username)
         {
-            User? user = await _applicationContext.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+            User? user = await _applicationContext.Users.Where(u => u.Username == username).FirstOrDefaultAsync();
             if (user != null)
             {
                 return Results.Json(user);
