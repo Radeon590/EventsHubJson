@@ -1,12 +1,29 @@
 using EventsHubApi;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddCors();
+#region CORS
+var corsOrigins = builder.Configuration.GetSection("CorsAllowedOrigins").Get<string[]>();
+CorsPolicyBuilder corsPolicyBuilder = new CorsPolicyBuilder();
+
+if (corsOrigins != null)
+    corsPolicyBuilder.WithOrigins(corsOrigins);
+else
+    corsPolicyBuilder.AllowAnyOrigin();
+
+corsPolicyBuilder.AllowCredentials();
+
+builder.Services.AddCors(o =>
+{
+    o.AddDefaultPolicy(corsPolicyBuilder.Build());
+});
+#endregion
+//
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => options.LoginPath = "/api/Users/NotAuthorized");
 builder.Services.AddAuthorization();
@@ -26,7 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(builder => builder.AllowAnyOrigin());
+app.UseCors();    
 
 app.UseAuthorization();
 
