@@ -46,6 +46,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   setAccount
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

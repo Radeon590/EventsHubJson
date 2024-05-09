@@ -1,7 +1,8 @@
 import initialState from "../initialState";
-import { SET_ACCOUNT, SET_ACCOUNT_DATA, SET_ACCOUNT_TYPE } from "../actions/account";
+import { SET_ACCOUNT, SET_ACCOUNT_DATA, SET_ACCOUNT_TYPE, CLEAN_ACCOUNT } from "../actions/account";
 
 export default function account(state = initialState.account, action) {
+    console.log("account reducer");
     switch (action.type) {
         case SET_ACCOUNT:
             localStorage.setItem("account", getStorageAccount(action.account));
@@ -30,6 +31,10 @@ export default function account(state = initialState.account, action) {
             }
             localStorage.setItem("account", getStorageAccount(state));
             return state;
+        case CLEAN_ACCOUNT:
+            console.log("clean");
+            localStorage.setItem("account", null);
+            return null;
 
         default:
             return state;

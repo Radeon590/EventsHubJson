@@ -1,22 +1,24 @@
 import { connect } from "react-redux";
-import { Navigate } from "react-router";
+import { useNavigate, Navigate } from "react-router";
+import UserProfile from '../components/UserProfile';
+import OrganizationProfile from "../components/OrganizationProfile";
+import { cleanAccount } from "../store/actionCreators/account";
 
-function Profile({ account }){
+function Profile({ account, cleanAccount }){
+    const navigate = useNavigate();
+
+    function signOut(){
+        cleanAccount();
+        navigate('../signin');
+    }
+
     if (account != null){
-        if (account.accountType === "user"){
-            return (
-                <div>
-                    User profile
-                </div>
-            );
-        }
-        else {
-            return (
-                <div>
-                    Organization profile
-                </div>
-            );
-        }
+        return (
+            <div>
+                { account.accountType === "user" ? <UserProfile data={account.data}/> : <OrganizationProfile data={account.data}/> } 
+                <button onClick={signOut}>SignOut</button>
+            </div>
+        );
     }
     else {
         return (
@@ -32,7 +34,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-
+    cleanAccount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
