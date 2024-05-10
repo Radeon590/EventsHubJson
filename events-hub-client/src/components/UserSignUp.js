@@ -17,10 +17,10 @@ function UserSignUp({ onSignUp, setAccount }) {
     function handleSignUp() {
         const userData = {
             username: usernameInput.current.value,
-            useremail: useremailInput.current.value,
+            userEmail: useremailInput.current.value,
             password: passwordInput.current.value,
-            firstname: firstnameInput.current.value,
-            secondname: secondnameInput.current.value,
+            firstName: firstnameInput.current.value,
+            secondName: secondnameInput.current.value,
             patronymic: patronymicInput.current.value,
             age: ageInput.current.value
         }
