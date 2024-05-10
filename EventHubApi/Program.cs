@@ -14,7 +14,7 @@ CorsPolicyBuilder corsPolicyBuilder = new CorsPolicyBuilder();
 if (corsOrigins != null)
     corsPolicyBuilder.WithOrigins(corsOrigins);
 else
-    corsPolicyBuilder.AllowAnyOrigin();
+    throw new Exception("cant get cors policies config");
 
 corsPolicyBuilder.AllowCredentials();
 
