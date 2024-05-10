@@ -1,4 +1,4 @@
-import { SET_ACCOUNT, SET_ACCOUNT_DATA, SET_ACCOUNT_TYPE, CLEAN_ACCOUNT, CREATE_USER_ACCOUNT } from "../actions/account";
+import { SET_ACCOUNT, SET_ACCOUNT_DATA, SET_ACCOUNT_TYPE, CLEAN_ACCOUNT } from "../actions/account";
 
 function setAccount(value){
     return {
@@ -27,11 +27,4 @@ function cleanAccount(){
     };
 }
 
-function createUserAccount(value){
-    return {
-        type: CREATE_USER_ACCOUNT,
-        data: value
-    };
-}
-
-export { setAccount, setAccountData, setAccountType, cleanAccount, createUserAccount };
+export { setAccount, setAccountData, setAccountType, cleanAccount };

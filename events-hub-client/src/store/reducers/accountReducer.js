@@ -1,5 +1,5 @@
 import initialState from "../initialState";
-import { SET_ACCOUNT, SET_ACCOUNT_DATA, SET_ACCOUNT_TYPE, CLEAN_ACCOUNT, CREATE_USER_ACCOUNT } from "../actions/account";
+import { SET_ACCOUNT, SET_ACCOUNT_DATA, SET_ACCOUNT_TYPE, CLEAN_ACCOUNT } from "../actions/account";
 
 export default function account(state = initialState.account, action) {
     console.log("account reducer");
@@ -33,23 +33,6 @@ export default function account(state = initialState.account, action) {
         case CLEAN_ACCOUNT:
             console.log("clean");
             return setAccountToStorage(null);
-        case CREATE_USER_ACCOUNT:
-            console.log("create account");
-            let result;
-            fetch(`http://localhost:5141/api/Users/Create`, {
-                method: "POST",
-                credentials: "include",
-                body: JSON.stringify(action.data)
-            })
-            .then(result => {
-                if (result.status === 200){
-                    result = setAccountToStorage(action.data);
-                }
-                else{
-                    throw new Error("Error while creating user. Status code: " + result.statusText);
-                }
-            });
-            return result;
 
         default:
             return state;

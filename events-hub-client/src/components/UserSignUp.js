@@ -1,9 +1,11 @@
 import "../css/input-group.css";
-import { createUserAccount } from "../store/actionCreators/account";
+import { setAccount } from "../store/actionCreators/account";
 import { connect } from "react-redux";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
-function UserSignUp({ onSignUp, createUserAccount }) {
+function UserSignUp({ onSignUp, setAccount }) {
+    const [isUserExist, setIsUserExist] = useState(false);
+
     const usernameInput = useRef(null);
     const useremailInput = useRef(null);
     const passwordInput = useRef(null);
@@ -22,13 +24,42 @@ function UserSignUp({ onSignUp, createUserAccount }) {
             patronymic: patronymicInput.current.value,
             age: ageInput.current.value
         }
-        createUserAccount(userData);
-        onSignUp();
+        fetch(`http://localhost:5141/api/Users/CreateFromJson`, {
+            method: "POST",
+            credentials: "include",
+            headers: { "Accept": "application/json", "Content-Type": "application/json" },
+            body: JSON.stringify(userData)
+        })
+            .then(result => {
+                if (result.status === 200) {
+                    userData.id = result.json();
+                    console.log(userData.id);
+                    const newAccount = {
+                        accountType: "user",
+                        data: userData
+                    }
+                    setAccount(newAccount);
+                    if (isUserExist === true) {
+                        setIsUserExist(false);
+                    }
+                    if (onSignUp != null && onSignUp !== undefined) {
+                        onSignUp();
+                    }
+                }
+                else if (result.status === 409) {
+                    setIsUserExist(true);
+                }
+                else {
+                    throw new Error("Error while creating user. Status code: " + result.statusText);
+                }
+            });
+
     }
 
     return (
         <div className="input-group">
             <h1>Sign Up as user</h1>
+            {isUserExist && <p>user is already exist. try another username or password</p>}
             <input type="text" placeholder="username" ref={usernameInput} />
             <input type="email" placeholder="useremail" ref={useremailInput} />
             <input type="password" placeholder="password" ref={passwordInput} />
@@ -48,7 +79,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    createUserAccount
+    setAccount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserSignUp);
