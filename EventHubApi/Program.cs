@@ -17,6 +17,7 @@ else
     throw new Exception("cant get cors policies config");
 
 corsPolicyBuilder.AllowCredentials();
+corsPolicyBuilder.AllowAnyHeader();
 
 builder.Services.AddCors(o =>
 {
