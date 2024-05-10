@@ -1,12 +1,13 @@
 import initialState from "../initialState";
-import { SET_ACCOUNT, SET_ACCOUNT_DATA, SET_ACCOUNT_TYPE, CLEAN_ACCOUNT } from "../actions/account";
+import { SET_ACCOUNT, SET_ACCOUNT_DATA, SET_ACCOUNT_TYPE, CLEAN_ACCOUNT, CREATE_USER_ACCOUNT } from "../actions/account";
 
 export default function account(state = initialState.account, action) {
     console.log("account reducer");
+    console.log(state);
     switch (action.type) {
         case SET_ACCOUNT:
-            localStorage.setItem("account", getStorageAccount(action.account));
-            return action.account;
+            console.log(action.account);
+            return setAccountToStorage(action.account);
         case SET_ACCOUNT_DATA:
             if (state === null) {
                 state = {
@@ -17,8 +18,7 @@ export default function account(state = initialState.account, action) {
             else {
                 state.data = action.data;
             }
-            localStorage.setItem("account", getStorageAccount(state));
-            return state;
+            return setAccountToStorage(state);
         case SET_ACCOUNT_TYPE:
             if (state === null) {
                 state = {
@@ -26,21 +26,44 @@ export default function account(state = initialState.account, action) {
                     accountType: action.accountType
                 }
             }
-            else{
+            else {
                 state.accountType = action.accountType;
             }
-            localStorage.setItem("account", getStorageAccount(state));
-            return state;
+            return setAccountToStorage(state);
         case CLEAN_ACCOUNT:
             console.log("clean");
-            localStorage.setItem("account", null);
-            return null;
+            return setAccountToStorage(null);
+        case CREATE_USER_ACCOUNT:
+            console.log("create account");
+            let result;
+            fetch(`http://localhost:5141/api/Users/Create`, {
+                method: "POST",
+                credentials: "include",
+                body: JSON.stringify(action.data)
+            })
+            .then(result => {
+                if (result.status === 200){
+                    result = setAccountToStorage(action.data);
+                }
+                else{
+                    throw new Error("Error while creating user. Status code: " + result.statusText);
+                }
+            });
+            return result;
 
         default:
             return state;
     }
 }
 
-function getStorageAccount(account){
-    return JSON.stringify(account);
+function setAccountToStorage(account) {
+    localStorage.setItem("account", getStorageAccount(account));
+    return account;
+}
+
+function getStorageAccount(account) {
+    if (account != null){
+        return JSON.stringify(account);
+    }
+    return null;
 }
