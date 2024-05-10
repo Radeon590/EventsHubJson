@@ -32,19 +32,21 @@ function UserSignUp({ onSignUp, setAccount }) {
         })
             .then(result => {
                 if (result.status === 200) {
-                    userData.id = result.json();
-                    console.log(userData.id);
-                    const newAccount = {
-                        accountType: "user",
-                        data: userData
-                    }
-                    setAccount(newAccount);
-                    if (isUserExist === true) {
-                        setIsUserExist(false);
-                    }
-                    if (onSignUp != null && onSignUp !== undefined) {
-                        onSignUp();
-                    }
+                    result.json().then(r => {
+                        userData.id = r;
+                        console.log(userData.id);
+                        const newAccount = {
+                            accountType: "user",
+                            data: userData
+                        }
+                        setAccount(newAccount);
+                        if (isUserExist === true) {
+                            setIsUserExist(false);
+                        }
+                        if (onSignUp != null && onSignUp !== undefined) {
+                            onSignUp();
+                        }
+                    });
                 }
                 else if (result.status === 409) {
                     setIsUserExist(true);
