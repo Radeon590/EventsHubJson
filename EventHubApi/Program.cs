@@ -28,8 +28,7 @@ builder.Services.AddCors(o =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => options.LoginPath = "/api/Users/NotAuthorized");
 builder.Services.AddAuthorization();
-builder.Services.AddDbContext<ApplicationContext>(options => options.UseMySql("server=localhost;user=root;password=root;database=usersdb;", 
-    new MySqlServerVersion(new Version(8, 0, 25))));
+builder.Services.AddScoped<ApplicationContext>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

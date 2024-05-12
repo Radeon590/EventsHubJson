@@ -1,26 +1,34 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using EventsHubApi.Entities;
+using Newtonsoft.Json;
 
 namespace EventsHubApi
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext
     {
-        public DbSet<User> Users { get; set; } = null!;
-        public DbSet<Organizer> Organizers { get; set; } = null!;
-        public DbSet<Event> Events { get; set; } = null!;
-        public DbSet<Donation> Donations { get; set; } = null!;
+        public List<User> Users { get; set; } = null!;
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+        public ApplicationContext() 
         {
-            Database.EnsureCreated();
+            if (File.Exists("./users.json"))
+            {
+                string json = File.ReadAllText("./users.json");
+                List<User>? users = JsonConvert.DeserializeObject<List<User>>(json);
+                if (users != null)
+                {
+                    Users = users;
+                }
+            }
+            else
+            {
+                Users = new List<User>();
+            }
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public async Task SaveChangesAsync()
         {
-            modelBuilder.Entity<User>()
-                    .HasMany(c => c.Events)
-                    .WithMany(s => s.Users)
-                    .UsingEntity(j => j.ToTable("Participants"));
+            string json = JsonConvert.SerializeObject(Users);
+            await File.WriteAllTextAsync("./users.json", json);
         }
     }
 }
