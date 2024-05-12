@@ -1,0 +1,26 @@
+[
+  {
+    "Id": 0,
+    "Username": "test",
+    "UserEmail": "test",
+    "Password": "password",
+    "FirstName": "firstname",
+    "SecondName": "secondname",
+    "Patronymic": "patronymic",
+    "Age": 5,
+    "Events": [
+    ]
+  },
+  {
+    "Id": 1,
+    "Username": "test1",
+    "UserEmail": "test1",
+    "Password": "password",
+    "FirstName": "firstname",
+    "SecondName": "secondname",
+    "Patronymic": "patronymic",
+    "Age": 5,
+    "Events": [
+    ]
+  }
+]

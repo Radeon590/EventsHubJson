@@ -54,7 +54,7 @@ namespace EventsHubApi.Controllers
                 return Results.Conflict("user with this username ot useremail is exists");
             }
             //
-            
+            user.Id = _applicationContext.Users.Count();
             _applicationContext.Users.Add(user);
             await _applicationContext.SaveChangesAsync();
             //TODO: check return id
