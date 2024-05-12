@@ -48,13 +48,14 @@ namespace EventsHubApi.Controllers
         private async Task<IResult> Create(User user)
         {
             //check unique
-            int countNotUnique = await _applicationContext.Users.Where(u => u.Username == user.Username || u.UserEmail == user.UserEmail).CountAsync();
+            int countNotUnique = _applicationContext.Users.Where(u => u.Username == user.Username || u.UserEmail == user.UserEmail).Count();
             if (countNotUnique > 0)
             {
                 return Results.Conflict("user with this username ot useremail is exists");
             }
             //
-            await _applicationContext.Users.AddAsync(user);
+            
+            _applicationContext.Users.Add(user);
             await _applicationContext.SaveChangesAsync();
             //TODO: check return id
             return Results.Ok(user.Id);
@@ -64,7 +65,7 @@ namespace EventsHubApi.Controllers
         [Route("Authorize")]
         public async Task<IResult> Authorize(string username, string password)
         {
-            var user = await _applicationContext.Users.Where(u => u.Username == username && u.Password == password).FirstOrDefaultAsync();
+            var user = _applicationContext.Users.Where(u => u.Username == username && u.Password == password).FirstOrDefault();
             if (user != null)
             {
                 var claims = new List<Claim>
@@ -91,7 +92,7 @@ namespace EventsHubApi.Controllers
         [Authorize(Roles = AuthRoles.User)]
         public async Task<IResult> Read(int id)
         {
-            User? user = await _applicationContext.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+            User? user = _applicationContext.Users.Where(u => u.Id == id).FirstOrDefault();
             if (user != null)
             {
                 return Results.Json(user);
@@ -104,7 +105,7 @@ namespace EventsHubApi.Controllers
         [Authorize(Roles = AuthRoles.User)]
         public async Task<IResult> ReadByUsername(string username)
         {
-            User? user = await _applicationContext.Users.Where(u => u.Username == username).FirstOrDefaultAsync();
+            User? user = _applicationContext.Users.Where(u => u.Username == username).FirstOrDefault();
             if (user != null)
             {
                 return Results.Json(user);
@@ -121,7 +122,7 @@ namespace EventsHubApi.Controllers
             if (updateUser != null) 
             {
                // return Results.Json(_applicationContext.Users.Where(u => u.Id == id).FirstOrDefault());
-                User? oldUser = await _applicationContext.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+                User? oldUser = _applicationContext.Users.Where(u => u.Id == id).FirstOrDefault();
                 if (oldUser != null)
                 {
                     oldUser.Username = updateUser.Username;
